@@ -14,56 +14,51 @@
     var score = 0;
     var aliens = new Array();
 
-    rand = (from, to) => {
-        return Math.round(Math.random() * to) + from;
-    }
-
     Array.prototype.Draw = () => {
-        console.log('Drawing !!' + this.length);
-        for (i = 0; i < this.length; i++) {
-            console.log('Drawing alien on x: '.this[i].x+' and y: '+this[i].y);
-            this[i] = this[i].Draw();
+        for (i = 0; i < aliens.length; i++) {
+            var alien = aliens[i];
+            alien.Draw();
         }
     }
+
+
 
     setupAlienGroup = (size) => {
         var alienWidth = 24;
         var alienHeight = 16;
-        var alienSpacing = 10;
-        var alienRows = 1;
-        var alientIntitalY = -(alienRows * (alienHeight + padding));
+        var alienRows = 3;
         var padding = 10; // 10 pixels left and 10 pixels right
-        var lastAlienX = (padding - alienWidth);
-        var lastAlienY = 0;
-
-
+        var alienIntialX = 40;
 
         // Lets calculate how many aliens we can store on the screen.
-        // In this calculation we dont need the hight we calculate based
+        // In this calculation we don't need the height we calculate based
         // on the width of the screen.
 
         var boundingbox = new Size(size.width - padding, 0);
-        var spireWidthIncPadding = alienWidth + padding;
-        var amountPerRow = boundingbox.width / spireWidthIncPadding;
+        var spriteWidthIncPadding = alienWidth + padding;
 
-        var lastAlienY =  20;
-        var alienInitialX  = boundingbox.w - padding;
-        var lastAlienY = alientIntitalY;
+        var lastAlienX = alienIntialX;
+        var lastAlienY =  140;
+
+        var amountPerRow = Math.round((boundingbox.width - padding - alienIntialX) / spriteWidthIncPadding);
 
 
         for (var row = 0; row < alienRows; row++) {
-            for (var alien = 0; alien < amountPerRow; alien++) {
-                aliens.push(new Alien(lastAlienX+padding, lastAlienY, alienWidth, alienHeight));
+            for (var aliencnt = 0; aliencnt < amountPerRow; aliencnt++) {
+                var alien = new Alien(lastAlienX, lastAlienY, alienWidth, alienHeight);
+                aliens.push(alien);
+                lastAlienX = alien.x + alien.w + padding;
+                console.log(alien);
             }
-            lastAlienY = (alienHeight + padding);
-            lastAlienX = alien
+            console.log('new row')
+            lastAlienY += (alienHeight + padding);
+            lastAlienX = alienIntialX
         }
     }
 
     drawAlienGroup = (size) => {
         // Or if we are gaming already lets draw them on the screen.
-        console.log('drawing '+this.aliens.length+ ' aliens');
-        this.aliens.Draw();
+        aliens.Draw();
     }
 
     start = () => {
@@ -81,7 +76,7 @@
             var player = new Player(size.width / 2 - 10, size.height - 10, 30, 16);
             var stepsize = 5;
 
-            drawAlienGroup(size);
+            setupAlienGroup(size);
 
             setInterval(function () {
                 screen.Clear();
