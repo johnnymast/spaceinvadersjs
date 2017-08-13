@@ -14,14 +14,14 @@
     var score = 0;
     var aliens = new Array();
 
+    // Having to adres aliens is wierd this might be a bug on my part .. fixing later
+    // it should the this .. instead of aliens...
     Array.prototype.Draw = () => {
         for (i = 0; i < aliens.length; i++) {
             var alien = aliens[i];
             alien.Draw();
         }
     }
-
-
 
     setupAlienGroup = (size) => {
         var alienWidth = 24;
@@ -48,9 +48,7 @@
                 var alien = new Alien(lastAlienX, lastAlienY, alienWidth, alienHeight);
                 aliens.push(alien);
                 lastAlienX = alien.x + alien.w + padding;
-                console.log(alien);
             }
-            console.log('new row')
             lastAlienY += (alienHeight + padding);
             lastAlienX = alienIntialX
         }
