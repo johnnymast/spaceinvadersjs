@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Space invaders</title>
+    <script type="text/javascript" src="Engine/Engine.js"></script>
+    <script type="text/javascript" src="Objects/Player.js"></script>
+    <script type="text/javascript" src="Objects/Alien.js"></script>
+</head>
+<body>
+
+<div id="game"></div>
+<script type="text/javascript">
+    var score = 0;
+
+    rand = (from, to) => {
+        return Math.round(Math.random() * to) + from;
+    }
+
+    gameover = () => {
+        alert('Game over your score was ' + score);
+        window.location.reload();
+    }
+
+
+    start = () => {
+
+        var size = new Size(
+            window.innerWidth  - 20,
+            window.innerHeight - 20,
+        );
+
+        setupEngine('game', size).then(function (screen) {
+            Canvas().style.background = 'rgb(0,0,0)';
+
+            var keyboard = new KeyboardInput();
+            var mouse = new MouseInput();
+            var player = new Player(size.width/2 - 10, size.height-10, 30, 16);
+            var stepsize = 5;
+
+            setInterval(function () {
+                screen.Clear();
+
+                var keyCode = keyboard.getKey();
+                var mousedirection = mouse.getDirection();
+
+                switch (mousedirection) {
+                    case mouse.DIRECTON_LEFT:
+                        player.velx = -stepsize;
+                        player.vely = 0;
+                        break;
+                    case mouse.DIRECTON_RIGHT:
+                        player.velx = stepsize;
+                        player.vely = 0;
+                        break;
+                }
+
+                switch (keyCode) {
+                    case keyboard.KEY_LEFT:
+                        player.velx = -stepsize;
+                        player.vely = 0;
+                        break;
+                    case keyboard.KEY_RIGHT:
+                        player.velx = stepsize;
+                        player.vely = 0;
+                        break;
+                }
+
+                if (mouse.didClick() == true || keyCode == keyboard.KEY_SPACEBAR) {
+                    console.log(' Fire !!');
+                }
+
+                // Simple bounds check
+                if (player.x <= 0) {
+                    player.x = 0;
+                }
+
+                if (player.x >= (size.width - player.w)) {
+                    player.x = size.width - player.w;
+                }
+
+                fill('white');
+                player.Draw();
+                text('Score: ' + score, 10, 27, 18);
+            }, 33);
+        });
+    }
+
+    start();
+
+</script>
+</body>
+</html>
