@@ -19,6 +19,5 @@ class Player {
 
         var src = 'Assets/Sprite Images/Ship.png';
         image(src, this.x, this.y, this.w, this.h,0,0);
-//        rect(this.x, this.y, this.w, this.h);
     }
 }

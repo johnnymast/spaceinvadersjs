@@ -7,6 +7,7 @@ class Alien {
     }
 
     Draw() {
-        rect(this.x, this.y, this.w, this.h);
+        var src = 'Assets/Sprite Images/InvaderA_00.png';
+        image(src, this.x, this.y, this.w, this.h, 0, 0);
     }
 }

@@ -12,21 +12,64 @@
 <div id="game"></div>
 <script type="text/javascript">
     var score = 0;
+    var aliens = new Array();
 
     rand = (from, to) => {
         return Math.round(Math.random() * to) + from;
     }
 
-    gameover = () => {
-        alert('Game over your score was ' + score);
-        window.location.reload();
+    Array.prototype.Draw = () => {
+        console.log('Drawing !!' + this.length);
+        for (i = 0; i < this.length; i++) {
+            console.log('Drawing alien on x: '.this[i].x+' and y: '+this[i].y);
+            this[i] = this[i].Draw();
+        }
     }
 
+    setupAlienGroup = (size) => {
+        var alienWidth = 24;
+        var alienHeight = 16;
+        var alienSpacing = 10;
+        var alienRows = 1;
+        var alientIntitalY = -(alienRows * (alienHeight + padding));
+        var padding = 10; // 10 pixels left and 10 pixels right
+        var lastAlienX = (padding - alienWidth);
+        var lastAlienY = 0;
+
+
+
+        // Lets calculate how many aliens we can store on the screen.
+        // In this calculation we dont need the hight we calculate based
+        // on the width of the screen.
+
+        var boundingbox = new Size(size.width - padding, 0);
+        var spireWidthIncPadding = alienWidth + padding;
+        var amountPerRow = boundingbox.width / spireWidthIncPadding;
+
+        var lastAlienY =  20;
+        var alienInitialX  = boundingbox.w - padding;
+        var lastAlienY = alientIntitalY;
+
+
+        for (var row = 0; row < alienRows; row++) {
+            for (var alien = 0; alien < amountPerRow; alien++) {
+                aliens.push(new Alien(lastAlienX+padding, lastAlienY, alienWidth, alienHeight));
+            }
+            lastAlienY = (alienHeight + padding);
+            lastAlienX = alien
+        }
+    }
+
+    drawAlienGroup = (size) => {
+        // Or if we are gaming already lets draw them on the screen.
+        console.log('drawing '+this.aliens.length+ ' aliens');
+        this.aliens.Draw();
+    }
 
     start = () => {
 
         var size = new Size(
-            window.innerWidth  - 20,
+            window.innerWidth - 20,
             window.innerHeight - 20,
         );
 
@@ -35,11 +78,14 @@
 
             var keyboard = new KeyboardInput();
             var mouse = new MouseInput();
-            var player = new Player(size.width/2 - 10, size.height-10, 30, 16);
+            var player = new Player(size.width / 2 - 10, size.height - 10, 30, 16);
             var stepsize = 5;
+
+            drawAlienGroup(size);
 
             setInterval(function () {
                 screen.Clear();
+                fill('white');
 
                 var keyCode = keyboard.getKey();
                 var mousedirection = mouse.getDirection();
@@ -79,8 +125,9 @@
                     player.x = size.width - player.w;
                 }
 
-                fill('white');
+
                 player.Draw();
+                drawAlienGroup(size);
                 text('Score: ' + score, 10, 27, 18);
             }, 33);
         });
