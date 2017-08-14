@@ -35,6 +35,7 @@
     var alienIntialY = 80;
     var alienIntialX = 50;
     var stepsize = 5;
+    var killscore = 10;
 
     var gamesize = new Size(
         1264,
@@ -108,6 +109,7 @@
 
                         if (alien.IsDead()) {
                             aliengroup.DeleteAlien(alien);
+                            score += killscore;
                         }
 
                     }
