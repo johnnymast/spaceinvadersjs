@@ -5,77 +5,53 @@
     <title>Space invaders</title>
     <script type="text/javascript" src="Engine/Engine.js"></script>
     <script type="text/javascript" src="Objects/Player.js"></script>
+    <script type="text/javascript" src="Objects/AlienGroup.js"></script>
     <script type="text/javascript" src="Objects/Alien.js"></script>
+    <script type="text/javascript" src="Objects/Bullet.js"></script>
+
+    <style type="text/css">
+        canvas {
+            background-color: black;
+            background-image: url('Assets/Sprite Images/Starfield.png'), url('Assets/Sprite Images/Starfield_far.jpg');
+            background-position: 110% 0px, 0px 0px;
+            background-blend-mode: screen, normal;
+            background-size:  30% 30%, 100% 100%;
+            background-repeat: no-repeat, no-repeat;
+        }
+
+        @keyframes animate-background {
+            from { background-position: 120% 0px,  }
+            to { background-position: -120% 0px }
+        }
+    </style>
 </head>
 <body>
 
 <div id="game"></div>
 <script type="text/javascript">
+
     var score = 0;
-    var aliens = new Array();
+    var bullets = new Array();
+    var alienIntialY = 80;
+    var alienIntialX = 50;
+    var stepsize = 5;
 
-    // Having to adres aliens is wierd this might be a bug on my part .. fixing later
-    // it should the this .. instead of aliens...
-    Array.prototype.Draw = () => {
-        for (i = 0; i < aliens.length; i++) {
-            var alien = aliens[i];
-            alien.Draw();
-        }
-    }
-
-    setupAlienGroup = (size) => {
-        var alienWidth = 24;
-        var alienHeight = 16;
-        var alienRows = 3;
-        var padding = 10; // 10 pixels left and 10 pixels right
-        var alienIntialX = 40;
-
-        // Lets calculate how many aliens we can store on the screen.
-        // In this calculation we don't need the height we calculate based
-        // on the width of the screen.
-
-        var boundingbox = new Size(size.width - padding, 0);
-        var spriteWidthIncPadding = alienWidth + padding;
-
-        var lastAlienX = alienIntialX;
-        var lastAlienY =  140;
-
-        var amountPerRow = Math.round((boundingbox.width - padding - alienIntialX) / spriteWidthIncPadding);
-
-
-        for (var row = 0; row < alienRows; row++) {
-            for (var aliencnt = 0; aliencnt < amountPerRow; aliencnt++) {
-                var alien = new Alien(lastAlienX, lastAlienY, alienWidth, alienHeight);
-                aliens.push(alien);
-                lastAlienX = alien.x + alien.w + padding;
-            }
-            lastAlienY += (alienHeight + padding);
-            lastAlienX = alienIntialX
-        }
-    }
-
-    drawAlienGroup = (size) => {
-        // Or if we are gaming already lets draw them on the screen.
-        aliens.Draw();
-    }
+    var gamesize = new Size(
+        1264,
+        632,
+    );
 
     start = () => {
 
-        var size = new Size(
-            window.innerWidth - 20,
-            window.innerHeight - 20,
-        );
-
-        setupEngine('game', size).then(function (screen) {
-            Canvas().style.background = 'rgb(0,0,0)';
+        setupEngine('game', gamesize).then(function (screen) {
+          //  Canvas().style.background = 'rgb(0,0,0)';
 
             var keyboard = new KeyboardInput();
             var mouse = new MouseInput();
-            var player = new Player(size.width / 2 - 10, size.height - 10, 30, 16);
-            var stepsize = 5;
+            var player = new Player(gamesize.width / 2 - 10, gamesize.height - 10, 30, 16);
+            var aliengroup = new AlienGroup(alienIntialX, alienIntialY, gamesize);
 
-            setupAlienGroup(size);
-
+            aliengroup.Setup();
             setInterval(function () {
                 screen.Clear();
                 fill('white');
@@ -105,8 +81,10 @@
                         break;
                 }
 
+                // Fire !!
                 if (mouse.didClick() == true || keyCode == keyboard.KEY_SPACEBAR) {
-                    console.log(' Fire !!');
+                    var bullet = new Bullet(player.x+player.w/2, player.y-10, 5, 5);
+                    bullets.push(bullet);
                 }
 
                 // Simple bounds check
@@ -114,13 +92,20 @@
                     player.x = 0;
                 }
 
-                if (player.x >= (size.width - player.w)) {
-                    player.x = size.width - player.w;
+                if (player.x >= (gamesize.width - player.w)) {
+                    player.x = gamesize.width - player.w;
                 }
 
+                aliengroup.Update();
+                aliengroup.Draw();
+
+                bullets.forEach(function(bullet) {
+                    bullet.Update();
+                    bullet.Draw();
+                });
 
                 player.Draw();
-                drawAlienGroup(size);
+
                 text('Score: ' + score, 10, 27, 18);
             }, 33);
         });
