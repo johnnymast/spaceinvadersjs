@@ -7,7 +7,7 @@
     <script type="text/javascript" src="Objects/Player.js"></script>
     <script type="text/javascript" src="Objects/AlienGroup.js"></script>
     <script type="text/javascript" src="Objects/Alien.js"></script>
-    <script type="text/javascript" src="Objects/Bullet.js"></script>
+    <script type="text/javascript" src="Objects/PlayerBullet.js"></script>
 
     <style type="text/css">
         canvas {
@@ -83,7 +83,7 @@
 
                 // Fire !!
                 if (mouse.didClick() == true || keyCode == keyboard.KEY_SPACEBAR) {
-                    var bullet = new Bullet(player.x+player.w/2, player.y-10, 5, 5);
+                    var bullet = new PlayerBullet(player.x+player.w/2, player.y-10, 5, 5);
                     bullets.push(bullet);
                 }
 
