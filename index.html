@@ -44,8 +44,6 @@
     start = () => {
 
         setupEngine('game', gamesize).then(function (screen) {
-          //  Canvas().style.background = 'rgb(0,0,0)';
-
             var keyboard = new KeyboardInput();
             var mouse = new MouseInput();
             var player = new Player(gamesize.width / 2 - 10, gamesize.height - 10, 30, 16);
@@ -97,12 +95,24 @@
                 }
 
                 aliengroup.Update();
-                aliengroup.Draw();
 
                 bullets.forEach(function(bullet) {
                     bullet.Update();
                     bullet.Draw();
+
+                    var x = Math.round(bullet.x);
+                    var y = Math.round(bullet.y);
+                    if ((alien = aliengroup.GetAlienAt(x, y)) != false) {
+                        alien.DecreaseHealth();
+                        alien.fill = 'red';
+
+                        if (alien.IsDead()) {
+                            aliengroup.DeleteAlien(alien);
+                        }
+
+                    }
                 });
+                aliengroup.Draw();
 
                 player.Draw();
 

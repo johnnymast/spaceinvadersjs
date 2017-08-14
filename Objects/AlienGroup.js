@@ -23,7 +23,7 @@ class AlienGroup {
         var spriteWidthIncPadding = this.alienWidth + this.alienpadding;
 
         var lastAlienX = alienIntialX;
-        var lastAlienY =  alienIntialY;
+        var lastAlienY = alienIntialY;
 
         var amountPerRow = Math.round((boundingbox.width - this.alienpadding - alienIntialX) / spriteWidthIncPadding);
 
@@ -31,7 +31,7 @@ class AlienGroup {
             for (var aliencnt = 0; aliencnt < amountPerRow; aliencnt++) {
                 var alien = new Alien(lastAlienX, lastAlienY, this.alienWidth, this.alienHeight);
                 this.aliens.push(alien);
-                lastAlienX = alien.x + alien.w + this.alienpadding;
+                lastAlienX = alien.x + alien.width + this.alienpadding;
             }
             lastAlienY += (this.alienHeight + this.alienpadding);
             lastAlienX = alienIntialX;
@@ -55,18 +55,18 @@ class AlienGroup {
         options.firstx = options.lastx;
 
         // calculate most left alien x
-        for (var i = this.aliens.length-1; i > 0; i--) {
-            var alien = this.aliens[i]; //console.log(alien)
+        for (var i = this.aliens.length - 1; i > 0; i--) {
+            var alien = this.aliens[i];
             if (alien.x < options.firstx) {
                 options.firstx = alien.x;
             }
         }
 
-        if (options.lastx+(this.alienWidth+this.alienpadding) > gamesize.width) {
+        if (options.lastx + (this.alienWidth + this.alienpadding) > gamesize.width) {
 
             for (var i = 0; i < this.aliens.length; i++) {
                 this.aliens[i].y += (this.alienHeight + this.alienpadding);
-                this.aliens[i].x -= 1; //(this.alienWidth + this.alienpadding);
+                this.aliens[i].x -= 1;
             }
 
             this.velx = -1;
@@ -75,7 +75,7 @@ class AlienGroup {
 
             for (var i = 0; i < this.aliens.length; i++) {
                 this.aliens[i].y += (this.alienHeight + this.alienpadding);
-                this.aliens[i].x += 1;// (this.alienWidth + this.alienpadding);
+                this.aliens[i].x += 1;
             }
 
             this.velx = 1;
@@ -86,6 +86,27 @@ class AlienGroup {
                 this.aliens[i].x += this.velx;
             }
         }
+    }
+
+
+    DeleteAlien(target) {
+        var self = this;
+        this.aliens.forEach(function(alien, index) {
+            if (alien == target) {
+                self.aliens.splice(index, 1);
+            }
+        })
+    }
+
+    GetAlienAt(x, y) {
+        for (var i = 0; i < this.aliens.length; i++) {
+            var alien = this.aliens[i];
+            if (alien.InterSectsWith(x, y) === true) {
+                console.log('ja!')
+                return alien;
+            }
+        }
+        return false;
     }
 
     Draw() {
