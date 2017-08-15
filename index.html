@@ -50,6 +50,10 @@
             var player = new Player(gamesize.width / 2 - 10, gamesize.height - 10, 30, 16);
             var aliengroup = new AlienGroup(alienIntialX, alienIntialY, gamesize);
 
+
+            preloadSound('alienhit', new Sound('Assets/Sound Effects/InvaderHit.wav'));
+            preloadSound('shipbullet', new Sound('Assets/Sound Effects/ShipBullet.wav'));
+
             aliengroup.Setup();
             setInterval(function () {
                 screen.Clear();
@@ -84,6 +88,7 @@
                 if (mouse.didClick() == true || keyCode == keyboard.KEY_SPACEBAR) {
                     var bullet = new PlayerBullet(player.x+player.w/2, player.y-10, 5, 5);
                     bullets.push(bullet);
+                    playSound('shipbullet');
                 }
 
                 // Simple bounds check
@@ -97,15 +102,24 @@
 
                 aliengroup.Update();
 
-                bullets.forEach(function(bullet) {
+                aliengroup.GetAliens().forEach((alien) => {
+                    if (alien.InterSectsWith(player.x, player.y)) {
+                        console.log('dead!!');
+                    }
+                });
+
+                bullets.forEach((bullet) => {
                     bullet.Update();
                     bullet.Draw();
 
                     var x = Math.round(bullet.x);
                     var y = Math.round(bullet.y);
+
                     if ((alien = aliengroup.GetAlienAt(x, y)) != false) {
                         alien.DecreaseHealth();
                         alien.fill = 'red';
+
+                        playSound('alienhit');
 
                         if (alien.IsDead()) {
                             aliengroup.DeleteAlien(alien);
@@ -115,9 +129,7 @@
                     }
                 });
                 aliengroup.Draw();
-
                 player.Draw();
-
                 text('Score: ' + score, 10, 27, 18);
             }, 33);
         });

@@ -7,7 +7,8 @@ class AlienGroup {
         this.alienWidth = 24;
         this.alienHeight = 16;
         this.aliens = new Array();
-        this.velx = 1;
+        this.alienspeed = 5;
+        this.velx = this.alienspeed;
         this.vely = 0;
     }
 
@@ -38,10 +39,16 @@ class AlienGroup {
         }
     }
 
+    GetAliens() {
+        return this.aliens;
+    }
+
     Update() {
         var options = {
             firstx: 0,
             lastx: 0,
+            firsty: 0,
+            lasty: 0,
         }
 
         // calculate most right alien x
@@ -62,25 +69,42 @@ class AlienGroup {
             }
         }
 
+        // calculate most top alien y
+        for (var i = this.aliens.length - 1; i > 0; i--) {
+            var alien = this.aliens[i];
+            if (alien.y < options.firsty) {
+                options.firsty = alien.y;
+            }
+        }
+
+
+        // calculate most bottom alien y
+        for (var i = 0; i < this.aliens.length; i++) {
+            var alien = this.aliens[i];
+            if (alien.y > options.lasty) {
+                options.lasty = alien.y;
+            }
+        }
+
         if (options.lastx + (this.alienWidth + this.alienpadding) > gamesize.width) {
 
             for (var i = 0; i < this.aliens.length; i++) {
                 this.aliens[i].y += (this.alienHeight + this.alienpadding);
-                this.aliens[i].x -= 1;
+                this.aliens[i].x -= this.alienspeed;
             }
 
-            this.velx = -1;
+            this.velx = -this.alienspeed;
 
         } else if (options.firstx <= 0) {
 
             for (var i = 0; i < this.aliens.length; i++) {
                 this.aliens[i].y += (this.alienHeight + this.alienpadding);
-                this.aliens[i].x += 1;
+                this.aliens[i].x += this.alienspeed;
             }
 
-            this.velx = 1;
+            this.velx = this.alienspeed;
 
-        } else {
+        }  else {
 
             for (var i = 0; i < this.aliens.length; i++) {
                 this.aliens[i].x += this.velx;
