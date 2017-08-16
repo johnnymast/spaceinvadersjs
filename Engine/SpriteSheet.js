@@ -17,4 +17,15 @@ class SpriteSheet {
             pos[1]
         );
     }
+
+    DrawExtra(x, y, w, h, dx, dy) {
+        image(
+            this.img,
+            x, y,
+            w,
+            h,
+            dx,
+            dy
+        );
+    }
 }
