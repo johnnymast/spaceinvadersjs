@@ -59,6 +59,7 @@
             aliengroup.Setup();
             setInterval(function () {
                 screen.Clear();
+                fill('white');
 
                 var keyCode = keyboard.getKey();
                 var mousedirection = mouse.getDirection();
@@ -118,7 +119,7 @@
 
                     if ((alien = aliengroup.GetAlienAt(x, y)) != false) {
                         alien.DecreaseHealth();
-                        alien.fill = 'red';
+                        alien.fill = 'red'; // TODO
 
                         playSound('alienhit');
 
@@ -133,7 +134,6 @@
                 });
                 bitmap.Write('This is a long text', 20, 40);
                 aliengroup.Draw();
-                fill('white');
 
                 player.Draw();
                 text('Score: ' + score, 10, 27, 18);

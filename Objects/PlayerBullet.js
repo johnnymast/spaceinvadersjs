@@ -13,6 +13,7 @@ class PlayerBullet {
     }
 
     Draw() {
+        fill('red');
         rect(this.x, this.y, this.h, this.w);
     }
 }
