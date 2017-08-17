@@ -53,6 +53,7 @@
 
             preloadSound('alienhit', new Sound('Assets/Sound Effects/InvaderHit.wav'));
             preloadSound('shipbullet', new Sound('Assets/Sound Effects/ShipBullet.wav'));
+            var map = new TiledMap('Assets/Maps/desert2.tmx');
 
             aliengroup.Setup();
             setInterval(function () {
