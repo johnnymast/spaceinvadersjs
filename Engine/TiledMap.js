@@ -11,6 +11,12 @@ class TiledMap {
         this.tilesets = [];
         this.layers = [];
         this.objectgroups = [];
+
+        var parts = this.url.split('/');
+        delete parts[parts.length-1];
+
+        this.path = parts.join('/');
+
         this.Load();
     }
 
@@ -39,16 +45,31 @@ class TiledMap {
                         'terraintypes': [],
                         'tiles': [],
                         'layers': [],
+                        'image': null,
+                        'spritesheet': null
                     };
                     var set = tilesets[i];
-                    var terraintypes = set.getElementsByTagName('terraintypes')[0]
+                    var terraintypes = set.getElementsByTagName('terraintypes')[0];
                     var tiles = set.getElementsByTagName('tile');
+                    var image = set.getElementsByTagName('image')[0];
 
                     // Proccess tile set attributes ..
                     for (var x = 0; x < set.attributes.length; x++) {
                         var key = set.attributes[x].nodeName;
                         var val = set.attributes[x].nodeValue;
                         tileset[key] = val;
+                    }
+
+
+                    if (typeof image !='undefined') {
+                        // Proccess tile set attributes ..
+                        var img = [];
+                        for (var x = 0; x < image.attributes.length; x++) {
+                            var key = image.attributes[x].nodeName;
+                            var val = image.attributes[x].nodeValue;
+                            img[key] = val;
+                        }
+                        tileset['image'] = img;
                     }
 
                     // Parse terain types IF any exist
@@ -84,6 +105,14 @@ class TiledMap {
                             }
                         }
                     }
+
+                    if (tileset.image) {
+                        tileset.spritesheet = new SpriteSheet(
+                            self.path + '/' + tileset.image.source,
+                            tileset.image.width,
+                            tileset.image.height);
+                    }
+
                     self.tilesets.push(tileset);
                 }
 
@@ -185,6 +214,18 @@ class TiledMap {
         xhttp.overrideMimeType('text/xml');
         xhttp.open("GET", this.url, true);
         xhttp.send();
+    }
+
+    RenderLayer(name)  {
+        if (this.layers.length > 0) {
+            for (var i =0; i < this.layers.length; i++) {
+                var layer = this.layers[i];
+                if (layer.name == name) {
+                    console.log('render dit');
+                    console.log(layer);
+                }
+            }
+        }
     }
 
     OnError() {

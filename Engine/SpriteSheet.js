@@ -1,6 +1,6 @@
 class SpriteSheet {
     constructor(img, width, height, positions) {
-        this.img = img; console.log(img)
+        this.img = img;
         this.width = width;
         this.height = height;
         this.positions = positions;
