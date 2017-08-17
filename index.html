@@ -54,8 +54,6 @@
             preloadSound('alienhit', new Sound('Assets/Sound Effects/InvaderHit.wav'));
             preloadSound('shipbullet', new Sound('Assets/Sound Effects/ShipBullet.wav'));
 
-            var bitmap = new BitmapFont('Assets/Fonts/Halo.fnt');
-
             aliengroup.Setup();
             setInterval(function () {
                 screen.Clear();
@@ -132,7 +130,7 @@
                         bullets.splice(index, 1);
                     }
                 });
-                bitmap.Write('This is a long text', 20, 40);
+
                 aliengroup.Draw();
 
                 player.Draw();
