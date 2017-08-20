@@ -216,13 +216,55 @@ class TiledMap {
         xhttp.send();
     }
 
+    FindTileSetWithGid(gid) {
+        if (this.tilesets.length > 0) {
+            for (var i = 0; i < this.tilesets.length; i++) {
+                if (this.tilesets[i].tiles.length > 0) {
+                    for (var j = 0; j <  this.tilesets[i].tiles.length; j++) {
+                        var tile = this.tilesets[i].tiles[j];
+                        if (tile.id == gid) return this.tilesets[i];
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    GetTileForTileSetAndTileId(tileset, tileid) {
+
+        if (tileset && tileid > -1) {
+            var stepXSize = tileset.tilewidth + tileset.margin + tileset.spacing;
+            var pos = { x: tileset.margin, y: 0 };
+
+            for (i = 0; i < tileset.columns; i++) {
+                if (i > 0) {
+                    pos.x +=
+                }
+
+
+                pos.x += tileset.spacing + tileset.margin;
+            }
+        //    console.log(tileset.image.width / stepXSize);
+        }
+        return false;
+    }
+
     RenderLayer(name)  {
         if (this.layers.length > 0) {
             for (var i =0; i < this.layers.length; i++) {
                 var layer = this.layers[i];
                 if (layer.name == name) {
-                    console.log('render dit');
-                    console.log(layer);
+                    if (layer.tiles.length > 0) {
+                        for (var j = 0; j < layer.tiles.length; j++) {
+                            var tile = layer.tiles[j];
+                            var tileset = this.FindTileSetWithGid(tile.gid);
+
+                            this.GetTileForTileSetAndTileId(tileset, tile.gid);
+                         //   console.log(tileset);
+                        }
+                    }
+                  //  console.log('render dit');
+                   // console.log(layer);
                 }
             }
         }
