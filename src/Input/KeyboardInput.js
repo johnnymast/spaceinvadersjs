@@ -1,4 +1,4 @@
-class KeyboardInput {
+export default class KeyboardInput {
 
     constructor() {
         this.keycode = 0;

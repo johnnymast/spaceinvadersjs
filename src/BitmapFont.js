@@ -1,4 +1,4 @@
-class BitmapFont {
+export default class BitmapFont {
 
     /**
      * Create a BitmapFont.

@@ -1,4 +1,4 @@
-setupAudio = () => {
+window.setupAudio = () => {
     try {
         config.set('engine.internals.audio.dictionary', new Array());
 
@@ -17,12 +17,14 @@ setupAudio = () => {
     return false;
 }
 
-preloadSound = (key, sound) => {
+window.preloadSound = (key, sound) => {
     return config.get('engine.internals.audio.dictionary')[key] = sound;
 }
 
-getSound = (key) => {
-    if ((dictionary = config.get('engine.internals.audio.dictionary'))) {
+window.getSound = (key) => {
+    var dictionary = config.get('engine.internals.audio.dictionary');
+
+    if (typeof dictionary != 'undefined') {
         if (dictionary[key]) {
             return dictionary[key];
         }
@@ -30,8 +32,9 @@ getSound = (key) => {
     return false;
 }
 
-playSound = (key) => {
-    if ((sound = getSound(key))) {
+window.playSound = (key) => {
+    var sound = getSound(key);
+    if (typeof sound != 'undefined') {
         sound.Play();
     }
 }

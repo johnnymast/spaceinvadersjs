@@ -1,4 +1,4 @@
-fill = (color) => {
+window.fill = (color) => {
     if (color) {
         config.set('engine.color.fill', color);
         return true;
@@ -6,7 +6,7 @@ fill = (color) => {
     return config.get('engine.color.fill');
 }
 
-stroke = (color) => {
+window.stroke = (color) => {
     if (color) {
         config.set('engine.color.stroke', color);
         return true;
@@ -14,7 +14,7 @@ stroke = (color) => {
     return config.get('engine.color.stroke');
 }
 
-background = (color) => {
+window.background = (color) => {
     if (color) {
         config.set('engine.color.background', color);
         return true;

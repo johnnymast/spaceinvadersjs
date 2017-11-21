@@ -1,4 +1,4 @@
-Context = (screen) => {
+window.Context = (screen) => {
     if (screen) {
         config.set('engine.internals.screen', screen);
         return true;
@@ -6,7 +6,7 @@ Context = (screen) => {
     return config.get('engine.internals.screen');
 }
 
-SoundContext = (soundcontext) => {
+window.SoundContext = (soundcontext) => {
     if (soundcontext) {
         config.set('engine.internals.sound.context', soundcontext);
         return true;
@@ -14,7 +14,7 @@ SoundContext = (soundcontext) => {
     return config.get('engine.internals.sound.context');
 }
 
-Canvas = (canvas) => {
+window.Canvas = (canvas) => {
     if (canvas) {
         config.set('engine.internals.canvas', canvas);
         return true;
@@ -22,16 +22,15 @@ Canvas = (canvas) => {
     return config.get('engine.internals.canvas');
 }
 
-function createScreen(size) {
+window.createScreen = function(size) {
     var screen = new Screen(size);
     return new Promise(function(resolve, reject) {
         resolve(screen);
     });
 }
 
-setupEngine = (target, size) => {
+window.setupEngine = (target, size) => {
     window.config = new Store();
-
     return new Promise(function(resolve, reject) {
         document.addEventListener('EngineStarted', function (e) {
             createScreen(size).then((screen) => {

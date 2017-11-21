@@ -1,4 +1,4 @@
-class Store {
+export default class Store {
     constructor() {
         this.container = {};
     }

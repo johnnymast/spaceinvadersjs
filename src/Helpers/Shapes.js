@@ -1,4 +1,4 @@
-circle = (x, y, radius) => {
+window.circle = (x, y, radius) => {
     var ctx = Context();
     ctx.fillStyle = fill();
     ctx.strokeStyle = stroke();
@@ -9,18 +9,18 @@ circle = (x, y, radius) => {
     ctx.stroke();
 }
 
-rect = (x, y, width, height) => {
+window.rect = (x, y, width, height) => {
     var ctx = Context();
     ctx.fillStyle = fill();
     ctx.fillRect(x, y, width, height);
 }
 
-image = (img,x, y, width, height, dx = 0, dy = 0) => {
+window.image = (img,x, y, width, height, dx = 0, dy = 0) => {
     var ctx = Context();
     ctx.fillStyle = fill();
 
     if (typeof img == 'string') {
-        src = img;
+        var src = img;
         img = new Image();
         img.src = src;
     }
@@ -37,7 +37,7 @@ image = (img,x, y, width, height, dx = 0, dy = 0) => {
     );
 }
 
-text = (str, x, y, fontsize = 30) => {
+window.text = (str, x, y, fontsize = 30) => {
     var ctx = Context();
     ctx.fillStyle = fill();
 

@@ -1,4 +1,4 @@
-class TiledMap {
+export default class TiledMap {
     constructor(url) {
         this.url = url;
         this.version = '';
@@ -236,7 +236,7 @@ class TiledMap {
             var stepXSize = tileset.tilewidth + tileset.margin + tileset.spacing;
             var pos = { x: tileset.margin, y: 0 };
 
-            for (i = 0; i < tileset.columns; i++) {
+            for (var i = 0; i < tileset.columns; i++) {
                 if (i > 0) {
                     pos.x += 1
                 }
@@ -244,7 +244,6 @@ class TiledMap {
 
                 pos.x += tileset.spacing + tileset.margin;
             }
-        //    console.log(tileset.image.width / stepXSize);
         }
         return false;
     }
@@ -260,11 +259,8 @@ class TiledMap {
                             var tileset = this.FindTileSetWithGid(tile.gid);
 
                             this.GetTileForTileSetAndTileId(tileset, tile.gid);
-                         //   console.log(tileset);
                         }
                     }
-                  //  console.log('render dit');
-                   // console.log(layer);
                 }
             }
         }

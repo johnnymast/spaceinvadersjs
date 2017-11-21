@@ -1,4 +1,4 @@
-class Sound {
+export default class Sound {
     constructor(url) {
         this.url = url;
         this.buffer = null;

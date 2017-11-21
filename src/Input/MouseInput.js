@@ -1,4 +1,4 @@
-class MouseInput {
+export default class MouseInput {
 
     constructor() {
         this.DIRECTON_LEFT  = 0;

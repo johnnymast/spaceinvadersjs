@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Space invaders</title>
-    <script type="text/javascript" src="Engine/Engine.js"></script>
-    <script type="text/javascript" src="Objects/Player.js"></script>
-    <script type="text/javascript" src="Objects/AlienGroup.js"></script>
-    <script type="text/javascript" src="Objects/Alien.js"></script>
-    <script type="text/javascript" src="Objects/PlayerBullet.js"></script>
+    <script src="dist/app.bundle.js"></script>
+    <script src="Objects/Alien.js"></script>
+    <script src="Objects/AlienGroup.js"></script>
+    <script src="Objects/Player.js"></script>
+    <script src="Objects/PlayerBullet.js"></script>
+    <script src="Objects/Rect.js"></script>
 
     <style type="text/css">
         canvas {
@@ -132,10 +133,13 @@
                     }
                 });
 
-                aliengroup.Draw();
                 map.RenderLayer('Ground');
+                aliengroup.Draw();
                 player.Draw();
                 text('Score: ' + score, 10, 27, 18);
+
+
+
             }, 33);
         });
     }

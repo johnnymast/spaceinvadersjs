@@ -1,4 +1,4 @@
-class Screen {
+export default class Screen {
     constructor(size) {
         var canvas = document.createElement('canvas');
         canvas.width = size.width;
@@ -13,3 +13,4 @@ class Screen {
         this.ctx.clearRect(0, 0, this.width, this.height);
     }
 }
+module.exports = Screen;
