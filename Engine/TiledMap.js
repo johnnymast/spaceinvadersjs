@@ -238,7 +238,7 @@ class TiledMap {
 
             for (i = 0; i < tileset.columns; i++) {
                 if (i > 0) {
-                    pos.x +=
+                    pos.x += 1
                 }
 
 
